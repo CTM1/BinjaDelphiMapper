@@ -1,26 +1,25 @@
 import binaryninja
 from binaryninja import PluginCommand, BinaryView, interaction
 
-system_libs = ['kernel32', 'system.', 'Windows.']
-
 def rename_functions(bv: BinaryView, map_file_path: str, create: bool):
     with open(map_file_path, 'r') as file:
         for line in file:
-            if not any(prefix in line for prefix in system_libs) and line.count('_') >= 1:
+            if line.count('_') >= 1:
                 try:
                     parts = line.split()[1].split('_')
                     new_name = parts[0]
                     addr = int(parts[1], 16)
 
                     fn = bv.get_function_at(addr)
-                    if fn:
+
+                    if fn and not fn.name in new_name:
                         fn.name = new_name
-                    else:
-                        if (create):
-                            fn = bv.add_function(addr, bv.platform, True)
+                    elif (create):
+                        fn = bv.create_user_function(addr, bv.platform)
+                        if not fn.name in new_name:
                             fn.name = new_name
-                        else:
-                            print(f"function {new_name} at {hex(addr)} not found, not creating")
+                    else:
+                        print(f"function {new_name} at {hex(addr)} not found, not creating")
                 except:
                     continue  # Ignore lines that don't match the expected format
 
