@@ -5,20 +5,10 @@ _A plugin that renames Delphi functions according to a .map file produced by IDR
 
 ## Description:
 
-Parses a .map file and replaces the names of functions at their corresponding adresses.
+Parses a .map file produced by IDR (Interactive Delphi Reconstructor) and replaces the names of functions at their corresponding adresses.
 
-
-## Installation Instructions
-
-### Darwin
-
-
-
-### Windows
-
-
-
-### Linux
+To acquire a MAP file:
+![MAP generator in IDR](IDR_example.png)
 
 
 
@@ -26,8 +16,7 @@ Parses a .map file and replaces the names of functions at their corresponding ad
 
 This plugin requires the following minimum version of Binary Ninja:
 
-* 1200
-
+* 2784
 
 ## License
 
